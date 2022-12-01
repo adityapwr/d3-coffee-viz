@@ -1,9 +1,8 @@
+// Updated D3 to V7
 var chart;
 var height = 200;
 var width = 300;
 //DEFINE YOUR VARIABLES UP HERE
-
-// Set of 4 colors to use for the bars
 const BAR_COLOR = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"];
 
 //Gets called when the page is loaded.
@@ -31,6 +30,8 @@ function update(rawdata) {
 
   var x = getXSelectedOption();
   var y = getYSelectedOption();
+
+  // Data Transformation
   const transformed_data = {};
   rawdata.forEach(function (d) {
     if (transformed_data[d[x]] == undefined) {
@@ -43,11 +44,12 @@ function update(rawdata) {
     return { x: key, y: transformed_data[key] };
   });
   console.log(data);
-  // Plot data on bar graph and color each bar different color
 
+  // Scales
   var xScale = d3.scaleBand().range([0, width]).padding(0.4);
   var yScale = d3.scaleLinear().range([height, 0]);
 
+  // Axis
   var g = vis
     .attr("width", width + 100)
     .attr("height", height + 100)
@@ -72,7 +74,7 @@ function update(rawdata) {
     .call(d3.axisBottom(xScale))
     .append("text")
     .attr("y", -10)
-    .attr("x", width + 10)
+    .attr("x", width + 15)
     .attr("text-anchor", "end")
     .attr("stroke", "black")
     .text(x);
@@ -94,6 +96,7 @@ function update(rawdata) {
     .attr("stroke", "black")
     .text(y);
 
+  // Bars
   g.selectAll(".bar")
     .data(data)
     .enter()
